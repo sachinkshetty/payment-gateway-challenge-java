@@ -1,6 +1,7 @@
 package com.checkout.payment.gateway.model;
 
 import com.checkout.payment.gateway.enums.PaymentStatus;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PostPaymentResponse {
@@ -80,5 +81,20 @@ public class PostPaymentResponse {
         ", currency='" + currency + '\'' +
         ", amount=" + amount +
         '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass())
+      return false;
+    PostPaymentResponse that = (PostPaymentResponse) o;
+    return cardNumberLastFour == that.cardNumberLastFour && expiryMonth == that.expiryMonth
+        && expiryYear == that.expiryYear && amount == that.amount && Objects.equals(id, that.id)
+        && status == that.status && Objects.equals(currency, that.currency);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, status, cardNumberLastFour, expiryMonth, expiryYear, currency, amount);
   }
 }

@@ -3,6 +3,7 @@ package com.checkout.payment.gateway.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class PostPaymentRequest implements Serializable {
 
@@ -93,5 +94,20 @@ public class PostPaymentRequest implements Serializable {
         ", amount=" + amount +
         ", cvv=" + cvv +
         '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass())
+      return false;
+    PostPaymentRequest that = (PostPaymentRequest) o;
+    return expiryMonth == that.expiryMonth && expiryYear == that.expiryYear && amount == that.amount
+        && cvv == that.cvv && Objects.equals(cardNumber, that.cardNumber) && Objects.equals(
+        currency, that.currency);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(cardNumber, expiryMonth, expiryYear, currency, amount, cvv);
   }
 }

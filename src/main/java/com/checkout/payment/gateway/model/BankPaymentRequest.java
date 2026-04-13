@@ -1,6 +1,7 @@
 package com.checkout.payment.gateway.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Objects;
 
 public class BankPaymentRequest {
   @JsonProperty("card_number")
@@ -71,5 +72,19 @@ public class BankPaymentRequest {
         ", amount=" + amount +
         ", cvv='" + cvv + '\'' +
         '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass())
+      return false;
+    BankPaymentRequest that = (BankPaymentRequest) o;
+    return amount == that.amount && cvv == that.cvv && Objects.equals(cardNumber, that.cardNumber)
+        && Objects.equals(expiryDate, that.expiryDate) && Objects.equals(currency, that.currency);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(cardNumber, expiryDate, currency, amount, cvv);
   }
 }
