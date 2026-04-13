@@ -1,0 +1,40 @@
+name: Build and Deploy
+
+env:
+  JAVA_VERSION: '21'
+  PACKAGE_LOCATION: ./app.zip
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'build.gradle'
+
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'build.gradle'
+
+jobs:
+
+  build-and-deploy:
+    name: Build & Deploy to Dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: [ actions/setup-java ](https://github.com/actions/setup-java)@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build with gradle
+        run: ./gradlew clean build
+
+      - name: tests with gradle
+        run: ./gradlew clean test
